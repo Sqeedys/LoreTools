@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
+  <title id="title">Lore Tools</title>
+  <desc id="desc">A book icon beside the words Books, clues, and stories. Server-side tools for Minecraft.</desc>
+  <rect width="1200" height="320" rx="16" fill="#162c35"/>
+  <path d="M0 280H1200" stroke="#bba275" stroke-width="2"/>
+  <g transform="translate(70 65)" fill="none" stroke-linejoin="round">
+    <path d="M0 12Q48 0 96 22Q144 0 192 12V160Q144 148 96 170Q48 148 0 160Z" fill="#f2eadb" stroke="#d9caad" stroke-width="5"/>
+    <path d="M96 22V170" stroke="#a99776" stroke-width="4"/>
+    <path d="M22 44L73 51M22 68L73 75M22 92L73 99M120 51L170 44M120 75L170 68M120 99L158 94" stroke="#7e918c" stroke-width="5"/>
+    <path d="M144 4V61L156 51L168 59V6" fill="#d9a24a" stroke="#d9a24a" stroke-width="3"/>
+  </g>
+  <text x="320" y="127" fill="#f6f1e7" font-family="Georgia, serif" font-size="68" font-weight="700">Lore Tools</text>
+  <text x="324" y="178" fill="#e0c394" font-family="Arial, sans-serif" font-size="28">Books, clues, and stories.</text>
+  <text x="324" y="224" fill="#b5c8cc" font-family="Arial, sans-serif" font-size="21">Server-side tools for Minecraft. No client mod required.</text>
+</svg>

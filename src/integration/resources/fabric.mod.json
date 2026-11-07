@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "loretools_integration",
+  "version": "1.0.0",
+  "name": "Lore Tools isolated integration fixture",
+  "environment": "server",
+  "entrypoints": { "main": ["dev.loretools.LoreIntegration"] },
+  "depends": { "fabricloader": ">=0.19.0", "fabric-api": "*", "loretools": "*", "minecraft": "26.3" }
+}

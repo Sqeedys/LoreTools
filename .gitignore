@@ -1,0 +1,45 @@
+# Local builds, downloaded dependencies and disposable servers
+/build/
+/local/
+/run/
+/runtime/
+/.gradle/
+**/__pycache__/
+*.pyc
+*.class
+*.jar
+*.zip
+*.tar.gz
+*.log
+
+# Never publish server data or credentials
+config/
+logs/
+world/
+worlds/
+backups/
+crash-reports/
+*.mca
+*.mcr
+*.dat
+*.dat_old
+session.lock
+server.properties
+ops.json
+usercache.json
+whitelist.json
+banned-players.json
+banned-ips.json
+.env
+.env.*
+*.pem
+*.key
+*.p12
+credentials*
+secrets/
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

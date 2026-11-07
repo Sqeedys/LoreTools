@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "loretools",
+  "version": "0.1.0",
+  "name": "Lore Tools",
+  "description": "Server-authoritative lore books, item text and scoped staff permissions.",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "dev.loretools.LoreTools"
+    ]
+  },
+  "mixins": [
+    "loretools.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "26.3",
+    "java": ">=25",
+    "fabric-api": ">=0.165.2"
+  },
+  "recommends": {
+    "luckperms": ">=5.5.85"
+  },
+  "license": "MIT",
+  "authors": [
+    "Sqeedys"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Sqeedys/LoreTools",
+    "sources": "https://github.com/Sqeedys/LoreTools",
+    "issues": "https://github.com/Sqeedys/LoreTools/issues"
+  }
+}

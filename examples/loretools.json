@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "defaultTitle": "Untitled",
+  "guiEnabled": true,
+  "maxNameChars": 256,
+  "maxLoreLines": 32,
+  "maxLoreLineChars": 256,
+  "maxLoreTotalChars": 4096,
+  "permissionMode": "auto",
+  "roles": {
+    "viewer": ["loretools.library.browse"],
+    "placer": ["loretools.library.browse", "loretools.library.get"],
+    "author": ["loretools.book.*", "loretools.item.*", "loretools.library.browse", "loretools.library.get", "loretools.library.save"],
+    "admin": [
+      "loretools.book.sign", "loretools.book.author", "loretools.book.title", "loretools.book.draft",
+      "loretools.library.browse", "loretools.library.get", "loretools.library.save", "loretools.library.update", "loretools.library.delete",
+      "loretools.item.name", "loretools.item.lore", "loretools.admin.reload", "loretools.admin.permissions"
+    ]
+  },
+  "aliases": {
+    "sign": "sign", "author": "author", "title": "booktitle", "draft": "draft",
+    "name": "name", "resetname": "resetname", "lore": "lore",
+    "save": "savebook", "get": "getbook", "library": "library", "list": "listbooks",
+    "update": "updatebook", "delete": "deletebook", "reload": "ltreload"
+  }
+}
