@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "loretools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "Lore Tools",
   "description": "Server-authoritative lore books, item text and scoped staff permissions.",
   "environment": "server",

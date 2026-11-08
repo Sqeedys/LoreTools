@@ -2,7 +2,29 @@
 
 This record distinguishes compilation, automated checks, native-server fixtures and actual client testing. A passing build does not prove every gameplay interaction works.
 
-## Build checks — 2026-11-07
+## Login regression — 2026-11-08
+
+Version 0.1.0's tests suppressed outgoing packets, so they did not validate the command tree received by a client. A subsequent login report exposed this gap. Re-running the original release with the native command packet encoder/decoder reproduced `IllegalStateException: Server sent an impossible command tree` after granting the built-in admin role.
+
+Same-name executable leaf shortcuts could compare equal to their redirect targets. Packet node deduplication could therefore produce a self-redirect. Version 0.1.1 removes those redirect edges while sharing canonical handlers, requirements and children. The integration harness now encodes and decodes outgoing command packets, including permission updates and reconnect-equivalent synchronization. This validates the failing codec path; it is still distinct from a graphical-client connection.
+
+Version 0.1.1 compiled and passed all 206 focused checks and **70 native-server steps**. Each phase produced a fresh PASS receipt and server exit code 0 for the artifact below.
+
+| Backend / phase | Steps | Result |
+| --- | ---: | --- |
+| Built-in / initial | 31 | PASS |
+| Built-in / restart | 11 | PASS |
+| LuckPerms / external | 23 | PASS |
+| LuckPerms / external restart | 5 | PASS |
+
+The new command-packet checks cover unassigned access, every built-in role grant/revocation, persisted roles at restart, LuckPerms administrator access and LuckPerms restart. Native command packet serialization and decoding succeeded in each checked state. All runtime evidence remains local and ignored.
+
+```text
+loretools-0.1.1.jar
+SHA-256 d3feda2a56c034fc0cf10610425a63d3e0b3b6fe8b44c0c1d4a03d6c2ad28008
+```
+
+## Historical 0.1.0 build checks — 2026-11-07
 
 The standalone source compiled with Temurin JDK 25.0.5+8 against Minecraft 26.3, Fabric Loader 0.20.1 and Fabric API 0.165.2+26.3. All **206 focused checks passed**:
 
@@ -21,7 +43,7 @@ SHA-256 fb04f0e6188e1cfbd7e9fbcefe7f7f482fbcc26dfaaee42bdfc1d4cd77c8df0a
 
 The production JAR contains only mod classes/resources and its MIT notice. Dependencies and the separate integration harness are not bundled.
 
-## Native-server fixture
+## Historical 0.1.0 native-server fixture
 
 On 2026-11-07, the artifact hash above passed **67 named native-server steps** across four fresh phase receipts. Each server exited successfully; paired restart phases used the corresponding saved fixture.
 

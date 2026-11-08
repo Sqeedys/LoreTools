@@ -105,6 +105,7 @@ public final class LoreIntegration implements ModInitializer {
             check(!tools.allowed(player.createCommandSourceStack(),"book.sign"),"unassigned player denied");
             try{command("lt sign Nobody Title");throw new AssertionError("Unauthorized command parsed");}
             catch(com.mojang.brigadier.exceptions.CommandSyntaxException expected){passed.add("unauthorized command denied");}
+            step("unassigned command packet decodes",()->server.getCommands().sendCommands(player));
             step("unauthorized root completions loaded",()->requestSuggestions("lt "),()->suggestions.isDone());
             step("unauthorized features omitted from completions",()->{
                 Set<String> names=new HashSet<>();suggestions.join().getList().forEach(s->names.add(s.getText()));
@@ -112,13 +113,14 @@ public final class LoreIntegration implements ModInitializer {
             });
             for(String role:tools.config.roles.keySet())step("grant role "+role,
                     ()->server.getCommands().getDispatcher().execute("lt permissions grant "+ID+" "+role,server.createCommandSourceStack()),
-                    ()->hasRole(role));
+                    ()->{if(!hasRole(role))return false;server.getCommands().sendCommands(player);return true;});
             initial();
         }else restart();
     }
 
     private void initial() {
         List<String> latest=List.of("Latest\n\nJournal \ud83d\udcda","");
+        step("authorized command packet decodes",()->server.getCommands().sendCommands(player));
         step("native edit packet starts delayed page save",()->{
             player.setItemInHand(InteractionHand.MAIN_HAND,draft());
             delayedBundle=new java.util.concurrent.CompletableFuture<>();delayNextBundle=true;
@@ -245,6 +247,7 @@ public final class LoreIntegration implements ModInitializer {
     }
 
     private void restart() {
+        step("reconnected command packet decodes",()->server.getCommands().sendCommands(player));
         step("roles survive server restart",()->check(tools.allowed(player.createCommandSourceStack(),"library.get"),"persisted role allows get"));
         step("library save update delete survive restart",()->{
             var entry=tools.library.find("integration_keep");check(entry!=null,"saved template loaded");
@@ -257,7 +260,7 @@ public final class LoreIntegration implements ModInitializer {
         });
         for(String role:tools.config.roles.keySet())step("revoke role "+role,
                 ()->server.getCommands().getDispatcher().execute("lt permissions revoke "+ID+" "+role,server.createCommandSourceStack()),
-                ()->!hasRole(role));
+                ()->{if(hasRole(role))return false;server.getCommands().sendCommands(player);return true;});
         step("revoked player denied",()->check(!tools.allowed(player.createCommandSourceStack(),"library.get"),"revocation effective"));
         step("revoked template completions loaded",()->requestSuggestions("lt get integration_"),()->suggestions.isDone());
         step("revoked template IDs omitted from completions",()->check(suggestions.join().getList().stream().noneMatch(s->s.getText().contains("integration_keep")),"existing template IDs not leaked"));
@@ -300,6 +303,7 @@ public final class LoreIntegration implements ModInitializer {
                 check(tools.allowed(player.createCommandSourceStack(),"item.name"),"LP reloaded grant effective");
                 check(externalState("loretools.book.sign").equals("UNDEFINED"),"LP revoke persisted");
                 check(!externalAllowed("book.sign",true),"OP does not bypass persisted undefined");
+                server.getCommands().sendCommands(player);
             });return;
         }
         step("reset synthetic LuckPerms parents",()->console("lp user "+ID+" parent set default"),
@@ -346,6 +350,7 @@ public final class LoreIntegration implements ModInitializer {
                 ()->externalState("loretools.library.delete").equals("TRUE"));
         step("documented fixed-node administrator scope",()->{
             check(externalAllowed("library.delete",false),"non-OP admin granted");
+            server.getCommands().sendCommands(player);
             for(String node:LoreConfig.NODES)check(tools.permissions.allowed(player.createCommandSourceStack(),node),"admin fixed node "+node);
             check(command("lt permissions grant "+ID+" author")==0,"external mode rejects builtin role management");
             console("lp user "+ID+" permission set loretools.library.delete false");
@@ -423,7 +428,17 @@ public final class LoreIntegration implements ModInitializer {
         player.closeContainer();restoreInventory(before);player.setGameMode(oldMode);
     }
     private boolean menuHasId(LibraryMenu menu,int slot,String id){var lore=menu.slots.get(slot).getItem().get(DataComponents.LORE);return lore!=null&&lore.lines().stream().anyMatch(line->line.getString().equals("ID: "+id));}
-    private void capture(Packet<?> packet){if(packet instanceof net.minecraft.network.protocol.game.ClientboundSystemChatPacket chat)feedback.add(chat.content().getString());}
+    private void capture(Packet<?> packet){
+        if(packet instanceof net.minecraft.network.protocol.game.ClientboundSystemChatPacket chat)feedback.add(chat.content().getString());
+        if(packet instanceof net.minecraft.network.protocol.game.ClientboundCommandsPacket commands){
+            var buffer=new net.minecraft.network.FriendlyByteBuf(io.netty.buffer.Unpooled.buffer());
+            try {
+                net.minecraft.network.protocol.game.ClientboundCommandsPacket.STREAM_CODEC.encode(buffer,commands);
+                net.minecraft.network.protocol.game.ClientboundCommandsPacket.STREAM_CODEC.decode(buffer);
+                check(!buffer.isReadable(),"command packet fully decoded");
+            } finally {buffer.release();}
+        }
+    }
 
     private String confirmation() throws Exception {
         var field=LoreTools.class.getDeclaredField("confirmations");field.setAccessible(true);

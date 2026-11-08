@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1 — 2026-11-08
+
+- Fix invalid command packets that could disconnect permitted players on join or after an access grant. Shortcuts now share command handlers and children without redirect edges.
+- Round-trip native command packets in integration checks, including permission grants, revocation, restart and LuckPerms admin access.
+- Add a complete LuckPerms-only config example and clarify how `permissionMode: external` disables built-in role assignments and management.
+- Select the test-server artifact from mod metadata when versions change.
+
+Replace the old JAR rather than installing both versions. Existing library entries, configuration and role assignments remain compatible.
+
 ## 0.1.0 — 2026-11-07
 
 First public release of Lore Tools.

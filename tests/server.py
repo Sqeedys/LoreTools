@@ -97,7 +97,8 @@ def run(args) -> None:
     runtime = args.runtime.resolve()
     game_libraries = build.validate_runtime(runtime)
     build.dependencies(cache)
-    artifact = PROJECT / "build/libs/loretools-0.1.0.jar"
+    metadata = json.loads((PROJECT / "src/main/resources/fabric.mod.json").read_text(encoding="utf-8"))
+    artifact = PROJECT / "build/libs" / f"{metadata['id']}-{metadata['version']}.jar"
     if not artifact.exists():
         raise ValueError("Build the mod before starting this test server")
     mods = directory / "mods"
