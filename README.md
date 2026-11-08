@@ -8,6 +8,8 @@ Lore Tools helps server staff make journals, letters, named objects and other re
 
 **Created by [Sqeedys](https://www.youtube.com/@Sqeedys) — [watch on YouTube ↗](https://www.youtube.com/@Sqeedys).**
 
+**Upgrading from 0.1.0:** replace the old JAR with 0.1.1. Version 0.1.0 could disconnect permitted players when synchronizing commands. Keep your existing configuration and library data.
+
 ## What you can do
 
 | Books | Library | Items & access |
@@ -21,7 +23,7 @@ Lore Tools helps server staff make journals, letters, named objects and other re
 
 1. Stop your **Fabric 26.3** server and back up its files.
 2. Install **Fabric Loader 0.20.1+**, **Java 25**, and **Fabric API 0.165.2+26.3**. An older Fabric API such as 0.162.0 will not satisfy this mod's requirement.
-3. Download **`loretools-0.1.0.jar`** from [Releases](https://github.com/Sqeedys/LoreTools/releases/latest) and put it in the server's `mods` folder. The source ZIP is for developers; the integration-test JAR is not for normal servers.
+3. Download **`loretools-0.1.1.jar`** from [Releases](https://github.com/Sqeedys/LoreTools/releases/latest) and put it in the server's `mods` folder. The source ZIP is for developers; the integration-test JAR is not for normal servers.
 4. Start the server. Players do **not** install Lore Tools on their clients.
 5. With the built-in backend active, run this in the **server console**, replacing the name with an online player:
 
@@ -87,7 +89,7 @@ With Python 3 and a JDK 25 installation:
 python build.py --java-home <JDK-25-directory> --prepare-runtime
 ```
 
-Output: `build/libs/loretools-0.1.0.jar`. Dependencies are downloaded with checksum verification and are **not** bundled in the mod.
+Output: `build/libs/loretools-0.1.1.jar`. Dependencies are downloaded with checksum verification and are **not** bundled in the mod.
 
 ## Contributing
 

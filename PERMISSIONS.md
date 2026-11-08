@@ -2,6 +2,14 @@
 
 Copy [examples/loretools.json](examples/loretools.json) to the server's `config/loretools.json`, or let the mod create its default configuration. All new players begin without a built-in role. The role definitions alone do not assign anyone access.
 
+## Disable built-in permissions and use LuckPerms
+
+Set `"permissionMode": "external"` in `config/loretools.json`, then restart with LuckPerms installed. A [complete LuckPerms-only config](examples/loretools-luckperms.json) is provided for new installations; preserve your other settings when editing an existing config.
+
+This disables built-in role management and ignores all stored built-in role assignments. The `roles` section may stay in the config, but has no effect in external mode. Use the LuckPerms commands below to assign individual `loretools.*` nodes or groups. Existing built-in `admin` membership does not become a LuckPerms grant. Missing/unavailable LuckPerms denies player access instead of restoring built-in access.
+
+The default stays `auto` for easy setup: on the first startup it chooses built-in roles when LuckPerms is absent. That choice is persisted; adding LuckPerms later does not switch an existing server automatically. Set `external` explicitly to switch.
+
 ## Choose the authority
 
 - `builtin`: Lore Tools uses explicit UUID role assignments. The real console can manage access. Players with Minecraft's OWNER command authority can bootstrap only `loretools.admin.permissions` and `loretools.admin.reload`; they receive no automatic book, item or library powers. Explicit assigned role denials override this bootstrap too.

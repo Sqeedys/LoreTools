@@ -35,7 +35,7 @@ Install Python 3 and JDK 25, then run from the repository root, substituting you
 python build.py --java-home <jdk25> --prepare-runtime
 ```
 
-This downloads the pinned vanilla server bundle and dependencies, extracts an ignored compile runtime, compiles with `--release 25`, runs each Java test main named `*Test.java`, and produces `build/libs/loretools-0.1.0.jar`. It does not start Minecraft or accept its EULA. Use `--prepare-only` to download/verify prerequisites only. A previously prepared runtime can be supplied with `--runtime <runtime-directory>` instead of `--prepare-runtime`; it must contain `game.jar`, `lib/*.jar` and a `runtime.json` manifest with Minecraft version and artifact hashes.
+This downloads the pinned vanilla server bundle and dependencies, extracts an ignored compile runtime, compiles with `--release 25`, runs each Java test main named `*Test.java`, and produces `build/libs/loretools-0.1.1.jar`. It does not start Minecraft or accept its EULA. Use `--prepare-only` to download/verify prerequisites only. A previously prepared runtime can be supplied with `--runtime <runtime-directory>` instead of `--prepare-runtime`; it must contain `game.jar`, `lib/*.jar` and a `runtime.json` manifest with Minecraft version and artifact hashes.
 
 Fresh temporary class directories prevent removed source classes from surviving into a jar. Sorted entries, fixed jar timestamps and UTF-8 source compilation make repeated builds reproducible with the same JDK, sources and dependencies. `--cache` selects dependency storage; keep it outside tracked source.
 

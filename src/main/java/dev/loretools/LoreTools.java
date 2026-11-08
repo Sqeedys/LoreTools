@@ -145,7 +145,13 @@ public final class LoreTools implements ModInitializer {
             var child=root.getChild(canonical);
             if(child==null)return;
             if(d.getRoot().getChild(alias)!=null){LOG.warn("Lore Tools shortcut /{} conflicts; use /lt {}",alias,canonical);return;}
-            d.getRoot().addChild(new PermissionLiteral(literal(alias).requires(child.getRequirement()).executes(child.getCommand()).redirect(child).build()));
+            // A same-name executable leaf redirect can compare equal to its target in
+            // Brigadier. Packet node deduplication then produces a self-redirect,
+            // which vanilla clients reject as an impossible command tree.
+            // Share the implementation and arguments without a redirect edge.
+            var shortcut=literal(alias).requires(child.getRequirement()).executes(child.getCommand()).build();
+            child.getChildren().forEach(shortcut::addChild);
+            d.getRoot().addChild(new PermissionLiteral(shortcut));
             shortcuts.put(canonical,alias); LOG.info("Lore Tools registered /{} -> /lt {} (aliases require restart)",alias,canonical);
         });
     }

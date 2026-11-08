@@ -16,6 +16,8 @@ The first startup creates `config/loretools.json`. Start with the [complete exam
 | `roles` | viewer / placer / author / admin | Built-in permissions, including optional negative nodes |
 | `aliases` | See example | Canonical command to standalone shortcut |
 
+To disable built-in roles and use only LuckPerms, set `"permissionMode": "external"` and restart. Stored built-in assignments are ignored, built-in role management is disabled, and player access fails closed if LuckPerms is unavailable. See the [complete LuckPerms-only example](../examples/loretools-luckperms.json) and [setup recipes](../PERMISSIONS.md). The default remains `auto`.
+
 Use `/lt reload` after editing. The whole replacement must validate before it is applied. Failed reloads keep the working configuration. Changing aliases or `permissionMode` requires a restart.
 
 Templates are stored under `local/loretools/books/` relative to the server working directory. Role assignments and the backend marker are under `local/loretools/`. Back up this directory with your server. Do not publish it: it contains your book content and staff UUID assignments. Mutation audits use actor/action/item or template identifiers; they do not deliberately record entire books.
